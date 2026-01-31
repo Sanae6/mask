@@ -37,9 +37,22 @@ public partial class Terrain : StaticBody2D
 		}
 	}
 
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventMouseButton { Pressed: true } eventMouseButton) return;
+		
+		var op = new WorldOp([new Vector2(25, 25), new Vector2(25, -25), new Vector2(-25, -25), new Vector2(-25, 25)], eventMouseButton.ButtonIndex == MouseButton.Left ? Geometry2D.PolyBooleanOperation.Union : Geometry2D.PolyBooleanOperation.Difference);
+		for (var i = 0; i < op.points.Length; i++)
+		{
+			op.points[i] += eventMouseButton.Position;
+		}
+		operations.Add(op);
+		RecalculatePolygons();
+	}
+
 	private void RecalculatePolygons()
 	{
-		List<Vector2[]> new_polygons = [[]];
+		List<Vector2[]> newPolygons = [[]];
 		
 		foreach (var operation in operations)
 		{
@@ -47,23 +60,38 @@ public partial class Terrain : StaticBody2D
 			{
 				case Geometry2D.PolyBooleanOperation.Union:
 					var added = false;
-					for (var i = 0; i < new_polygons.Count && !added; i++)
+					for (var i = 0; i < newPolygons.Count && !added; i++)
 					{
-						var mergedPolygons = Geometry2D.MergePolygons(new_polygons[i], operation.points);
+						var mergedPolygons = Geometry2D.MergePolygons(newPolygons[i], operation.points);
 						if (mergedPolygons.Count != 1) continue;
-						new_polygons[i] = mergedPolygons[0];
+						newPolygons[i] = mergedPolygons[0];
 						added = true;
 					}
 					if (!added)
 					{
-						new_polygons.Add(operation.points);
+						newPolygons.Add(operation.points);
+					}
+					break;
+				
+				case Geometry2D.PolyBooleanOperation.Difference:
+					var originalPolygonCount = newPolygons.Count;
+					for (var i = 0; i < originalPolygonCount; i++)
+					{
+						var clippedPolygons = Geometry2D.ClipPolygons(newPolygons[i], operation.points);
+						if (clippedPolygons.Count == 2)
+						{
+						 //
+						}
+						newPolygons[i] = clippedPolygons[0];
+						clippedPolygons.RemoveAt(0);
+						newPolygons.AddRange(clippedPolygons);
 					}
 					break;
 			}
 		}
 		
 		polygons.Clear();
-		foreach (var polygon in new_polygons)
+		foreach (var polygon in newPolygons)
 		{
 			polygons.AddRange(Geometry2D.DecomposePolygonInConvex(polygon));
 		}

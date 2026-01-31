@@ -3,19 +3,10 @@
 [ext_resource type="Script" uid="uid://b3i24sv1ccpni" path="res://Player.cs" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
-size = Vector2(809, 75)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
 size = Vector2(130, 121)
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=598020513]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=299564237]
-position = Vector2(498, 518)
-shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=6298494]
 script = ExtResource("1_0xm2m")
