@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://br3o5hab1gkls"]
+
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="1_sjb42"]
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player.tscn" id="2_pdtm5"]
+
+[node name="Level1" type="Node2D" unique_id=1347166652]
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=895136628]
+script = ExtResource("1_sjb42")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="Polygon2D" type="Polygon2D" parent="Terrain" unique_id=1784052781]
+polygon = PackedVector2Array(49, 508, 49, 610, 1115, 610, 1115, 508, 568, 227)
+
+[node name="Player" parent="Terrain" unique_id=246047011 instance=ExtResource("2_pdtm5")]
+position = Vector2(373, 98)

@@ -11,6 +11,10 @@ public partial class Terrain : StaticBody2D {
     public List<WorldOp> operations = [];
     private int staticOperationCount;
 
+    private bool recalculateQueued;
+
+    [Export] public Color color;
+
     private uint shapeOwnerId;
     private List<Vector2[]> polygons = [];
 
@@ -31,6 +35,15 @@ public partial class Terrain : StaticBody2D {
             ConvexPolygonShape2D shape = new ConvexPolygonShape2D();
             shape.Points = polygon;
             ShapeOwnerAddShape(shapeOwnerId, shape);
+        }
+    }
+
+    public void QueueRecalculation() => recalculateQueued = true;
+
+    public override void _Process(double delta) {
+        if (recalculateQueued) {
+            recalculateQueued = false;
+            RecalculatePolygons();
         }
     }
 

@@ -21,19 +21,22 @@ public partial class DynamicDeformer : Node2D {
             throw new Exception("deformer must be parented to a terrain");
 
         points = new Vector2[pointCount];
-        terrain.operations.Add(new Terrain.WorldOp(points, Geometry2D.PolyBooleanOperation.Xor));
+        terrain.operations.Add(new Terrain.WorldOp(points, Geometry2D.PolyBooleanOperation.Difference));
     }
 
     private double time;
+
     public override void _Process(double delta) {
-        time += delta;
+        time += delta / 5;
 
         float interval = (Mathf.Pi * 2 / pointCount);
         float startOffset = interval / 2;
         for (int i = 0; i < pointCount; i++) {
             float rad = startOffset + i * interval;
-            points[i] =Position + new Vector2((float)Mathf.Sin(time) * 500 + Mathf.Cos(rad) * 100, Mathf.Sin(rad) * 100);
+            points[i] = Position +
+                        new Vector2((float)Mathf.Sin(time) * 500 + Mathf.Cos(rad) * 100, Mathf.Sin(rad) * 100);
         }
-        terrain.RecalculatePolygons();
+
+        terrain.QueueRecalculation();
     }
 }
