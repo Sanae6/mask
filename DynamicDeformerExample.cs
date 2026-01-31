@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class DynamicDeformer : Node2D {
+public partial class DynamicDeformerExample : Node2D {
     private Terrain terrain;
     private Vector2[] points;
     [Export] private int pointCount = 4;

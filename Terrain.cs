@@ -49,7 +49,7 @@ public partial class Terrain : StaticBody2D {
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Draw() {
-        foreach (var polygon in polygons) {
+        foreach (Vector2[] polygon in polygons) {
             DrawColoredPolygon(polygon, Colors.CornflowerBlue);
         }
     }
@@ -71,7 +71,7 @@ public partial class Terrain : StaticBody2D {
         RecalculatePolygons();
     }
 
-    public void RecalculatePolygons() {
+    private void RecalculatePolygons() {
         List<Vector2[]> newPolygons = [[]];
 
         foreach (var operation in operations) {
