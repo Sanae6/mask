@@ -9,19 +9,22 @@ using Array = System.Array;
 [GlobalClass]
 public partial class Terrain : StaticBody2D {
     public List<WorldOp> operations = [];
+    private int staticOperationCount;
 
     private uint shapeOwnerId;
     private List<Vector2[]> polygons = [];
 
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
+    public override void _EnterTree() {
         operations.Add(new WorldOp(
             [new Vector2(0, 500), new Vector2(1150, 400), new Vector2(1150, 600), new Vector2(0, 600)],
             Geometry2D.PolyBooleanOperation.Union));
         operations.Add(new WorldOp(
             [new Vector2(200, 330), new Vector2(200, 660), new Vector2(300, 650), new Vector2(300, 330)],
             Geometry2D.PolyBooleanOperation.Union));
+        
+        staticOperationCount = operations.Count;
         shapeOwnerId = CreateShapeOwner(this);
         RecalculatePolygons();
         foreach (var polygon in polygons) {
@@ -34,7 +37,7 @@ public partial class Terrain : StaticBody2D {
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Draw() {
         foreach (var polygon in polygons) {
-            DrawColoredPolygon(polygon, new Color(GD.Randf(), GD.Randf(), GD.Randf()));
+            DrawColoredPolygon(polygon, Colors.CornflowerBlue);
         }
     }
 
@@ -51,11 +54,11 @@ public partial class Terrain : StaticBody2D {
             op.points[i] += eventMouseButton.Position;
         }
 
-        operations.Add(op);
+        operations.Insert(staticOperationCount, op);
         RecalculatePolygons();
     }
 
-    private void RecalculatePolygons() {
+    public void RecalculatePolygons() {
         List<Vector2[]> newPolygons = [[]];
 
         foreach (var operation in operations) {
@@ -86,6 +89,12 @@ public partial class Terrain : StaticBody2D {
                         .SelectMany(x => MergeInnerPolygons(Geometry2D.IntersectPolygons(x, operation.points)))
                         .ToList();
                     break;
+
+                case Geometry2D.PolyBooleanOperation.Xor:
+                    newPolygons = newPolygons
+                        .SelectMany(x => MergeInnerPolygons(Geometry2D.ExcludePolygons(x, operation.points)))
+                        .ToList();
+                    break;
             }
         }
 
@@ -95,6 +104,12 @@ public partial class Terrain : StaticBody2D {
         }
 
         QueueRedraw();
+        ShapeOwnerClearShapes(shapeOwnerId);
+        foreach (var polygon in polygons) {
+            ConvexPolygonShape2D shape = new ConvexPolygonShape2D();
+            shape.Points = polygon;
+            ShapeOwnerAddShape(shapeOwnerId, shape);
+        }
     }
 
     private Array<Vector2[]> MergeInnerPolygons(Array<Vector2[]> polygons) {

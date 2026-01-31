@@ -2,19 +2,26 @@
 
 [ext_resource type="Script" uid="uid://b3i24sv1ccpni" path="res://Player.cs" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://DynamicDeformer.cs" id="3_h2yge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xm2m"]
-size = Vector2(130, 121)
+size = Vector2(32, 58)
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=6298494]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=6298494]
 script = ExtResource("1_0xm2m")
+coyoteDuration = 6
+jumpGravMultiplier = 200.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=532093381]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=532093381]
 position = Vector2(277, 171)
 shape = SubResource("RectangleShape2D_0xm2m")
 
 [node name="Terrain" type="StaticBody2D" parent="." unique_id=1369065522]
 script = ExtResource("2_0xm2m")
 metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="Node2D" type="Node2D" parent="Terrain" unique_id=1797348188]
+position = Vector2(339, 491)
+script = ExtResource("3_h2yge")
