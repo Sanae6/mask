@@ -170,7 +170,7 @@ public partial class Terrain : StaticBody2D {
             str += $"({point.X}, {point.Y}),";
         }
 
-        str.Remove(str.Length - 1, 1);
+        str = str.Remove(str.Length - 1, 1);
         str += ")";
         GD.Print(str);
     }
