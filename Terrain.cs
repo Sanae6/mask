@@ -138,8 +138,7 @@ public partial class Terrain : StaticBody2D {
         // Check every line segment to see which one point1 lies on
         var outerIntersectionIndex = -1; // Should always be set
         for (var j = 0; j < outer.Length; j++) {
-            if (point1.DistanceTo(outer[j]) + point1.DistanceTo(outer[(j + 1) % outer.Length]) ==
-                outer[j].DistanceTo(outer[(j + 1) % outer.Length])) {
+            if (Math.Abs(point1.DistanceTo(outer[j]) + point1.DistanceTo(outer[(j + 1) % outer.Length]) - outer[j].DistanceTo(outer[(j + 1) % outer.Length])) < 0.001) {
                 outerIntersectionIndex = j;
                 break;
             }
