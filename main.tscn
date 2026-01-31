@@ -4,6 +4,10 @@
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
 [ext_resource type="Script" path="res://DynamicDeformerExample.cs" id="3_lquwl"]
 [ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://TerrainPolygon.cs" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://TerrainShape.cs" id="5_lquwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+size = Vector2(284, 178.5)
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
 
@@ -22,3 +26,9 @@ script = ExtResource("3_lquwl")
 polygon = PackedVector2Array(219, 327, 727, 388, 659, 558, 230, 555)
 script = ExtResource("4_1bvp3")
 metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=755613257]
+position = Vector2(802, 470.25)
+shape = SubResource("RectangleShape2D_7mycd")
+script = ExtResource("5_lquwl")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
