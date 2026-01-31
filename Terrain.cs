@@ -67,8 +67,11 @@ public partial class Terrain : StaticBody2D {
                     var added = false;
                     for (var i = 0; i < newPolygons.Count && !added; i++) {
                         var mergedPolygons = Geometry2D.MergePolygons(newPolygons[i], operation.points);
+                        var outerPolygonCount = mergedPolygons.Aggregate(0,
+                            (acc, poly) => acc + (Geometry2D.IsPolygonClockwise(poly) ? 0 : 1));
+                        if (outerPolygonCount != 1) continue;
+                        
                         mergedPolygons = MergeInnerPolygons(mergedPolygons);
-                        if (mergedPolygons.Count != 1) continue;
                         newPolygons[i] = mergedPolygons[0];
                         added = true;
                     }
