@@ -13,7 +13,7 @@ public partial class Terrain : StaticBody2D {
 
     private bool recalculateQueued;
 
-    [Export] public Color color;
+    [Export] public Color color = Colors.CornflowerBlue;
 
     private uint shapeOwnerId;
     private List<Vector2[]> polygons = [];
@@ -56,7 +56,7 @@ public partial class Terrain : StaticBody2D {
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Draw() {
         foreach (Vector2[] polygon in polygons) {
-            DrawColoredPolygon(polygon, Colors.CornflowerBlue);
+            DrawColoredPolygon(polygon, color);
         }
     }
 
@@ -238,5 +238,8 @@ public partial class Terrain : StaticBody2D {
         GD.Print(str);
     }
 
-    public record struct WorldOp(Vector2[] points, Geometry2D.PolyBooleanOperation boolOperation);
+    public class WorldOp(Vector2[] points, Geometry2D.PolyBooleanOperation boolOperation) {
+        public Vector2[] points { get; set; } = points;
+        public Geometry2D.PolyBooleanOperation boolOperation { get; set; } = boolOperation;
+    }
 }

@@ -5,7 +5,7 @@ namespace Mask;
 [GlobalClass]
 public partial class DynamicTerrainShape : TerrainShape {
     private Terrain terrain;
-    private Vector2[] points;
+    private Terrain.WorldOp worldOp;
     public override void _Ready() {
         Node parent = GetParent();
         while (parent is { } node) {
@@ -17,12 +17,13 @@ public partial class DynamicTerrainShape : TerrainShape {
             parent = node.GetParent();
         }
 
-        points = GetPolygon();
-        terrain.operations.Add(new Terrain.WorldOp(points, booleanOperation));
+        worldOp = new Terrain.WorldOp(GetPolygon(), booleanOperation);
+        terrain.operations.Add(worldOp);
     }
 
     public override void _Process(double delta) {
-        GetPolygon().CopyTo(points, 0);
+        GetPolygon().CopyTo(worldOp.points, 0);
+        worldOp.boolOperation = booleanOperation;
         
         terrain.QueueRecalculation();
     }
