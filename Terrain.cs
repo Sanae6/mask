@@ -26,7 +26,7 @@ public partial class Terrain : StaticBody2D {
                 operations.Add(new WorldOp(terrainPolygon.Polygon, terrainPolygon.booleanOperation));
                 child.QueueFree();
             } else if (child is TerrainShape terrainShape) {
-                operations.Add(new WorldOp(terrainShape.getPolygon(), terrainShape.booleanOperation));
+                operations.Add(new WorldOp(terrainShape.GetPolygon(), terrainShape.booleanOperation));
                 child.QueueFree();
             }
         }
