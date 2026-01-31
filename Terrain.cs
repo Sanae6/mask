@@ -23,7 +23,7 @@ public partial class Terrain : StaticBody2D {
         operations.Add(new WorldOp(
             [new Vector2(200, 330), new Vector2(200, 660), new Vector2(300, 650), new Vector2(300, 330)],
             Geometry2D.PolyBooleanOperation.Union));
-        
+
         staticOperationCount = operations.Count;
         shapeOwnerId = CreateShapeOwner(this);
         RecalculatePolygons();
@@ -48,13 +48,13 @@ public partial class Terrain : StaticBody2D {
             eventMouseButton.ButtonIndex switch {
                 MouseButton.Left => Geometry2D.PolyBooleanOperation.Union,
                 MouseButton.Right => Geometry2D.PolyBooleanOperation.Difference,
-                _ => Geometry2D.PolyBooleanOperation.Intersection
+                _ => Geometry2D.PolyBooleanOperation.Xor
             });
         for (var i = 0; i < op.points.Length; i++) {
             op.points[i] += eventMouseButton.Position;
         }
 
-        operations.Insert(staticOperationCount, op);
+        operations.Insert(staticOperationCount++, op);
         RecalculatePolygons();
     }
 
@@ -70,7 +70,7 @@ public partial class Terrain : StaticBody2D {
                         var outerPolygonCount = mergedPolygons.Aggregate(0,
                             (acc, poly) => acc + (Geometry2D.IsPolygonClockwise(poly) ? 0 : 1));
                         if (outerPolygonCount != 1) continue;
-                        
+
                         mergedPolygons = MergeInnerPolygons(mergedPolygons);
                         newPolygons[i] = mergedPolygons[0];
                         added = true;
@@ -117,23 +117,48 @@ public partial class Terrain : StaticBody2D {
 
     private Array<Vector2[]> MergeInnerPolygons(Array<Vector2[]> polygons) {
         var hasHole = false;
+        var outerCount = 0;
         var outerIdx = -1;
         for (var i = 0; i < polygons.Count; i++) {
             if (Geometry2D.IsPolygonClockwise(polygons[i])) {
                 hasHole = true;
             } else {
                 outerIdx = i;
+                outerCount++;
             }
         }
 
         if (!hasHole) return polygons;
-        var outer = polygons[outerIdx];
+        if (outerCount == 1) {
+            var outer = polygons[outerIdx];
 
-        outer = polygons
-            .Where((t, j) => j != outerIdx)
-            .Aggregate(outer, HolepunchPolygon);
+            outer = polygons
+                .Where((t, j) => j != outerIdx)
+                .Aggregate(outer, HolepunchPolygon);
 
-        return [outer];
+            return [outer];
+        } else {
+            var outers = polygons
+                .Where(x => !Geometry2D.IsPolygonClockwise(x))
+                .Select(x => new KeyValuePair<Vector2[], Array<Vector2[]>>(x, []))
+                .ToDictionary();
+
+            foreach (var inner in polygons.Where(Geometry2D.IsPolygonClockwise)) {
+                foreach (var (outer, associatedInners) in outers) {
+                    if (!Geometry2D.IsPointInPolygon(inner[0], outer)) continue;
+                    associatedInners.Add(inner);
+                    break;
+                }
+            }
+
+            Array<Vector2[]> newPolygons = [];
+            foreach (var (outer, associatedInners) in outers) {
+                associatedInners.Add(outer);
+                newPolygons.AddRange(MergeInnerPolygons(associatedInners));
+            }
+
+            return newPolygons;
+        }
     }
 
     private Vector2[] HolepunchPolygon(Vector2[] outer, Vector2[] inner) {
@@ -156,7 +181,8 @@ public partial class Terrain : StaticBody2D {
         // Check every line segment to see which one point1 lies on
         var outerIntersectionIndex = -1; // Should always be set
         for (var j = 0; j < outer.Length; j++) {
-            if (Math.Abs(point1.DistanceTo(outer[j]) + point1.DistanceTo(outer[(j + 1) % outer.Length]) - outer[j].DistanceTo(outer[(j + 1) % outer.Length])) < 0.001) {
+            if (Math.Abs(point1.DistanceTo(outer[j]) + point1.DistanceTo(outer[(j + 1) % outer.Length]) -
+                         outer[j].DistanceTo(outer[(j + 1) % outer.Length])) < 0.001) {
                 outerIntersectionIndex = j;
                 break;
             }
