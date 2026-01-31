@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://brc7tkecr8s0i"]
 
-[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player.tscn" id="1_h2yge"]
+[ext_resource type="PackedScene" path="res://player.tscn" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://DynamicDeformer.cs" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://TerrainPolygon.cs" id="4_1bvp3"]
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
 
@@ -16,3 +17,8 @@ metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
 [node name="Node2D" type="Node2D" parent="Terrain" unique_id=1797348188]
 position = Vector2(339, 491)
 script = ExtResource("3_h2yge")
+
+[node name="TerrainPolygon" type="Polygon2D" parent="Terrain" unique_id=2142803258]
+polygon = PackedVector2Array(219, 327, 727, 388, 659, 558, 230, 555)
+script = ExtResource("4_1bvp3")
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"

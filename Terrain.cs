@@ -21,12 +21,12 @@ public partial class Terrain : StaticBody2D {
 
     // Called when the node enters the scene tree for the first time.
     public override void _EnterTree() {
-        operations.Add(new WorldOp(
-            [new Vector2(0, 500), new Vector2(1150, 400), new Vector2(1150, 600), new Vector2(0, 600)],
-            Geometry2D.PolyBooleanOperation.Union));
-        operations.Add(new WorldOp(
-            [new Vector2(200, 330), new Vector2(200, 660), new Vector2(300, 650), new Vector2(300, 330)],
-            Geometry2D.PolyBooleanOperation.Union));
+        foreach (var child in GetChildren()) {
+            if (child is TerrainPolygon terrainPolygon) {
+                operations.Add(new WorldOp(terrainPolygon.Polygon, terrainPolygon.booleanOperation));
+                child.QueueFree();
+            }
+        }
 
         staticOperationCount = operations.Count;
         shapeOwnerId = CreateShapeOwner(this);
