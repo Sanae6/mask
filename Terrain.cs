@@ -42,9 +42,11 @@ public partial class Terrain : StaticBody2D {
         if (@event is not InputEventMouseButton { Pressed: true } eventMouseButton) return;
 
         var op = new WorldOp([new Vector2(25, 25), new Vector2(25, -25), new Vector2(-25, -25), new Vector2(-25, 25)],
-            eventMouseButton.ButtonIndex == MouseButton.Left
-                ? Geometry2D.PolyBooleanOperation.Union
-                : Geometry2D.PolyBooleanOperation.Difference);
+            eventMouseButton.ButtonIndex switch {
+                MouseButton.Left => Geometry2D.PolyBooleanOperation.Union,
+                MouseButton.Right => Geometry2D.PolyBooleanOperation.Difference,
+                _ => Geometry2D.PolyBooleanOperation.Intersection
+            });
         for (var i = 0; i < op.points.Length; i++) {
             op.points[i] += eventMouseButton.Position;
         }
@@ -62,6 +64,7 @@ public partial class Terrain : StaticBody2D {
                     var added = false;
                     for (var i = 0; i < newPolygons.Count && !added; i++) {
                         var mergedPolygons = Geometry2D.MergePolygons(newPolygons[i], operation.points);
+                        mergedPolygons = MergeInnerPolygons(mergedPolygons);
                         if (mergedPolygons.Count != 1) continue;
                         newPolygons[i] = mergedPolygons[0];
                         added = true;
@@ -74,35 +77,14 @@ public partial class Terrain : StaticBody2D {
                     break;
 
                 case Geometry2D.PolyBooleanOperation.Difference:
-                    var originalPolygonCount = newPolygons.Count;
-                    for (var i = 0; i < originalPolygonCount; i++) {
-                        var clippedPolygons = Geometry2D.ClipPolygons(newPolygons[i], operation.points);
+                    newPolygons = newPolygons
+                        .SelectMany(x => MergeInnerPolygons(Geometry2D.ClipPolygons(x, operation.points))).ToList();
+                    break;
 
-                        var hasHole = false;
-                        var outerIdx = -1;
-                        foreach (var polygon in clippedPolygons) {
-                            if (Geometry2D.IsPolygonClockwise(polygon)) {
-                                hasHole = true;
-                            } else {
-                                outerIdx = i;
-                            }
-                        }
-
-                        if (hasHole) {
-                            var outer = clippedPolygons[outerIdx];
-
-                            outer = clippedPolygons
-                                .Where((t, j) => j != outerIdx)
-                                .Aggregate(outer, HolepunchPolygon);
-
-                            newPolygons[i] = outer;
-                        } else {
-                            newPolygons[i] = clippedPolygons[0];
-                            clippedPolygons.RemoveAt(0);
-                            newPolygons.AddRange(clippedPolygons);
-                        }
-                    }
-
+                case Geometry2D.PolyBooleanOperation.Intersection:
+                    newPolygons = newPolygons
+                        .SelectMany(x => MergeInnerPolygons(Geometry2D.IntersectPolygons(x, operation.points)))
+                        .ToList();
                     break;
             }
         }
@@ -113,6 +95,27 @@ public partial class Terrain : StaticBody2D {
         }
 
         QueueRedraw();
+    }
+
+    private Array<Vector2[]> MergeInnerPolygons(Array<Vector2[]> polygons) {
+        var hasHole = false;
+        var outerIdx = -1;
+        for (var i = 0; i < polygons.Count; i++) {
+            if (Geometry2D.IsPolygonClockwise(polygons[i])) {
+                hasHole = true;
+            } else {
+                outerIdx = i;
+            }
+        }
+
+        if (!hasHole) return polygons;
+        var outer = polygons[outerIdx];
+
+        outer = polygons
+            .Where((t, j) => j != outerIdx)
+            .Aggregate(outer, HolepunchPolygon);
+
+        return [outer];
     }
 
     private Vector2[] HolepunchPolygon(Vector2[] outer, Vector2[] inner) {
