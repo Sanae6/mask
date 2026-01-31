@@ -10,6 +10,6 @@ public partial class linear : PathFollow2D
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
-        Progress += (float)delta * 60;
-    }
+		Progress += (float)delta * 60;
+	}
 }

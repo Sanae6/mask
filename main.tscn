@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://brc7tkecr8s0i"]
 
-[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player.tscn" id="1_h2yge"]
-[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://DynamicDeformerExample.cs" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://TerrainPolygon.cs" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://TerrainShape.cs" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://dtyht7i42utl5" path="res://TerrainNGon.cs" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://terrain/dynamic/DynamicDeformerExample.cs" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://terrain/TerrainPolygon.cs" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://dtyht7i42utl5" path="res://terrain/TerrainNGon.cs" id="6_7mycd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lquwl"]
 radius = 90.934044
@@ -35,10 +35,7 @@ script = ExtResource("5_lquwl")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
 
 [node name="TerrainNGon" type="Node2D" parent="Terrain" unique_id=287304923]
-position = Vector2(568.00006, 360)
-rotation = 1.1117747
-scale = Vector2(2.135, 0.74)
-skew = 0.53407073
+position = Vector2(678, 283)
 script = ExtResource("6_7mycd")
 radius = 50.0
 metadata/_custom_type_script = "uid://dtyht7i42utl5"

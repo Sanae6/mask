@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://br3o5hab1gkls"]
 
-[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="1_sjb42"]
-[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player.tscn" id="2_pdtm5"]
-[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://TerrainShape.cs" id="3_b3oru"]
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_sjb42"]
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="2_pdtm5"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="3_b3oru"]
 [ext_resource type="Script" uid="uid://bc2cyp3oxw538" path="res://linear.cs" id="4_61w3m"]
-[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://DynamicTerrainShape.cs" id="4_ua5ty"]
+[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/DynamicTerrainShape.cs" id="4_ua5ty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdtm5"]
 size = Vector2(1175, 91)
