@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" path="res://player.tscn" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://Terrain.cs" id="2_0xm2m"]
-[ext_resource type="Script" path="res://DynamicDeformerExample.cs" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://DynamicDeformerExample.cs" id="3_lquwl"]
 [ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://TerrainPolygon.cs" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://TerrainShape.cs" id="5_lquwl"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
-size = Vector2(284, 178.5)
+[sub_resource type="CircleShape2D" id="CircleShape2D_lquwl"]
+radius = 90.934044
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
 
@@ -28,7 +28,7 @@ script = ExtResource("4_1bvp3")
 metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
 
 [node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=755613257]
-position = Vector2(802, 470.25)
-shape = SubResource("RectangleShape2D_7mycd")
+position = Vector2(699, 476)
+shape = SubResource("CircleShape2D_lquwl")
 script = ExtResource("5_lquwl")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
