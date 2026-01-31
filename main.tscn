@@ -1,41 +1,27 @@
 [gd_scene format=3 uid="uid://brc7tkecr8s0i"]
 
-[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://b1ogtrp1mc6uf" path="res://terrain/dynamic/DynamicDeformerExample.cs" id="3_lquwl"]
 [ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://terrain/TerrainPolygon.cs" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://dtyht7i42utl5" path="res://terrain/TerrainNGon.cs" id="6_7mycd"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_lquwl"]
-radius = 90.934044
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
+size = Vector2(57, 59)
 
 [node name="Node2D" type="Node2D" unique_id=369958230]
-
-[node name="Player" parent="." unique_id=246047011 instance=ExtResource("1_h2yge")]
-position = Vector2(231, 95)
 
 [node name="Terrain" type="StaticBody2D" parent="." unique_id=1369065522]
 script = ExtResource("2_0xm2m")
 metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
 
-[node name="Node2D" type="Node2D" parent="Terrain" unique_id=1797348188]
-position = Vector2(339, 491)
-script = ExtResource("3_lquwl")
-
 [node name="TerrainPolygon" type="Polygon2D" parent="Terrain" unique_id=2142803258]
-polygon = PackedVector2Array(219, 327, 727, 388, 659, 558, 230, 555)
+position = Vector2(-251, -280)
+polygon = PackedVector2Array(750, 750, 750, 450, 900, 450, 900, 600, 900, 450, 1000, 450, 1000, 750)
 script = ExtResource("4_1bvp3")
 metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
 
 [node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=755613257]
-position = Vector2(699, 476)
-shape = SubResource("CircleShape2D_lquwl")
+position = Vector2(633, 269)
+shape = SubResource("RectangleShape2D_h2yge")
 script = ExtResource("5_lquwl")
+booleanOperation = 1
 metadata/_custom_type_script = "uid://u373uvylr5ap"
-
-[node name="TerrainNGon" type="Node2D" parent="Terrain" unique_id=287304923]
-position = Vector2(678, 283)
-script = ExtResource("6_7mycd")
-radius = 50.0
-metadata/_custom_type_script = "uid://dtyht7i42utl5"

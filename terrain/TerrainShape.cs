@@ -3,8 +3,8 @@ using System;
 using System.Linq;
 
 [GlobalClass]
-public partial class TerrainShape : CollisionShape2D {
-    [Export] public Geometry2D.PolyBooleanOperation booleanOperation = Geometry2D.PolyBooleanOperation.Union;
+public partial class TerrainShape : CollisionShape2D, TerrainObj {
+    [Export] public Geometry2D.PolyBooleanOperation booleanOperation { get; set; } = Geometry2D.PolyBooleanOperation.Union;
 
     public Vector2[] GetPolygon() {
         switch (Shape) {

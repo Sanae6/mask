@@ -4,9 +4,10 @@ using System.Linq;
 
 [GlobalClass]
 [Tool]
-public partial class TerrainNGon : Node2D
+public partial class TerrainNGon : Node2D, TerrainObj
 {
-    [Export] public Geometry2D.PolyBooleanOperation booleanOperation = Geometry2D.PolyBooleanOperation.Union;
+    [Export] public Geometry2D.PolyBooleanOperation booleanOperation { get; set; } = Geometry2D.PolyBooleanOperation.Union;
+
     [Export] public int sides {
         get => _sides;
         set { _sides = value; QueueRedraw(); }

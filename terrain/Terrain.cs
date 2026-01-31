@@ -22,16 +22,9 @@ public partial class Terrain : StaticBody2D {
     // Called when the node enters the scene tree for the first time.
     public override void _EnterTree() {
         foreach (var child in GetChildren()) {
-            if (child is TerrainPolygon terrainPolygon) {
-                operations.Add(new WorldOp(terrainPolygon.Polygon, terrainPolygon.booleanOperation));
-                child.QueueFree();
-            } else if (child is TerrainShape terrainShape) {
-                operations.Add(new WorldOp(terrainShape.GetPolygon(), terrainShape.booleanOperation));
-                child.QueueFree();
-            } else if (child is TerrainNGon terrainNGon) {
-                operations.Add(new WorldOp(terrainNGon.GetPolygon(), terrainNGon.booleanOperation));
-                child.QueueFree();
-            }
+            if (child is not TerrainObj terrainObj) continue;
+            operations.Add(new WorldOp(terrainObj.GetPolygon(), terrainObj.booleanOperation));
+            child.QueueFree();
         }
 
         staticOperationCount = operations.Count;
