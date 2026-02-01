@@ -58,7 +58,7 @@ speed = 200.0
 script = ExtResource("3_py88r")
 
 [node name="TerrainShape" type="CollisionShape2D" parent="Terrain/Path2D/PathFollow2D/Node2D" unique_id=890793101]
-position = Vector2(-32, 1)
+position = Vector2(-32, 0)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_s1bpp")
 script = ExtResource("4_g1dg4")

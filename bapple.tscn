@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dwei15mqxikfc"]
+
+[ext_resource type="Script" uid="uid://c1qlntcux4yvh" path="res://Bapple.cs" id="1_vuh8c"]
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="2_1hag6"]
+
+[node name="Bapple" type="Node2D" unique_id=1777905283]
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=1136259102]
+script = ExtResource("2_1hag6")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="Node2D" type="Node2D" parent="Terrain" unique_id=806679514 node_paths=PackedStringArray("terrain")]
+position = Vector2(576, 320)
+script = ExtResource("1_vuh8c")
+terrain = NodePath("..")
