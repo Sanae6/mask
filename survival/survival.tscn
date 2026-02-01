@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_gx01k"]
 [ext_resource type="Script" uid="uid://5b0sfh6gh331" path="res://survival/HoleSpawner.cs" id="4_3al8i"]
 [ext_resource type="PackedScene" uid="uid://bntj3xkr7a3x3" path="res://survival/obstacles/upwards_platform.tscn" id="5_gx01k"]
+[ext_resource type="Script" uid="uid://cxrpr627b4ia" path="res://survival/Timer.cs" id="6_led80"]
 [ext_resource type="Script" uid="uid://bkxnt0mjn8tpd" path="res://survival/DeathPlane.cs" id="6_se8cw"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_se8cw"]
@@ -28,8 +29,9 @@ size = Vector2(100, 10000)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mm5ju"]
 distance = -839.0
 
-[node name="Survival" type="Node2D" unique_id=89186192]
+[node name="Survival" type="Node2D" unique_id=89186192 node_paths=PackedStringArray("timer")]
 script = ExtResource("1_led80")
+timer = NodePath("Timer")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=625082396]
 offset_left = -47.0
@@ -130,3 +132,14 @@ theme_override_font_sizes/font_size = 40
 text = "Press anything to retry"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Timer" type="Label" parent="." unique_id=2085224218 node_paths=PackedStringArray("player")]
+offset_left = 544.0
+offset_top = 38.0
+offset_right = 608.0
+offset_bottom = 62.0
+text = "3:30"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_led80")
+player = NodePath("../Player")
