@@ -16,6 +16,21 @@ speedCap = 400.0
 shape = SubResource("RectangleShape2D_0xm2m")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531768615]
+visible = false
 position = Vector2(-3.0517578e-05, 0)
 scale = Vector2(0.09169051, 0.15958905)
 texture = ExtResource("2_onrkg")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1930923602]
+offset_left = -16.0
+offset_top = -29.0
+offset_right = 16.0
+offset_bottom = 29.0
+color = Color(0.6355743, 0.45482713, 0.25831637, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=748631579]
+offset_left = -12.0
+offset_top = -25.0
+offset_right = 12.0
+offset_bottom = 25.0
+color = Color(0.827451, 0.7254902, 0.62352943, 1)
