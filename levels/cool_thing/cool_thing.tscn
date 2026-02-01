@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://han3egq1ifht"]
+
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_0kyqf"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="3_5m7vr"]
+[ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://terrain/TerrainPolygon.cs" id="4_ponto"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mox23"]
+radius = 40.0
+
+[node name="CoolThing" type="Node2D" unique_id=9501467]
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=1429215399]
+script = ExtResource("1_0kyqf")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=1448155982]
+position = Vector2(789, 326)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape2" type="CollisionShape2D" parent="Terrain" unique_id=1918663525]
+position = Vector2(730.421, 467.42102)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape3" type="CollisionShape2D" parent="Terrain" unique_id=329720070]
+position = Vector2(589, 526)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape4" type="CollisionShape2D" parent="Terrain" unique_id=1451092137]
+position = Vector2(447.57898, 467.42102)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape5" type="CollisionShape2D" parent="Terrain" unique_id=1304563981]
+position = Vector2(389, 326)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape6" type="CollisionShape2D" parent="Terrain" unique_id=343236469]
+position = Vector2(447.57898, 184.579)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape7" type="CollisionShape2D" parent="Terrain" unique_id=1827343611]
+position = Vector2(589, 126)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape8" type="CollisionShape2D" parent="Terrain" unique_id=1001689486]
+position = Vector2(730.421, 184.579)
+shape = SubResource("CircleShape2D_mox23")
+script = ExtResource("3_5m7vr")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainPolygon" type="Polygon2D" parent="Terrain" unique_id=1531173937]
+position = Vector2(589, 326)
+polygon = PackedVector2Array(0, 0, 650, 0, 650, 650)
+script = ExtResource("4_ponto")
+booleanOperation = 3
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
+
+[node name="TerrainPolygon2" type="Polygon2D" parent="Terrain" unique_id=1009190125]
+position = Vector2(589, 326)
+rotation = 1.5707964
+polygon = PackedVector2Array(0, 0, 650, 0, 650, 650)
+script = ExtResource("4_ponto")
+booleanOperation = 3
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
+
+[node name="TerrainPolygon3" type="Polygon2D" parent="Terrain" unique_id=609684367]
+position = Vector2(589, 326)
+rotation = -3.1415925
+polygon = PackedVector2Array(0, 0, 650, 0, 650, 650)
+script = ExtResource("4_ponto")
+booleanOperation = 3
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
+
+[node name="TerrainPolygon4" type="Polygon2D" parent="Terrain" unique_id=1386754917]
+position = Vector2(589, 326)
+rotation = -1.5707964
+polygon = PackedVector2Array(0, 0, 650, 0, 650, 650)
+script = ExtResource("4_ponto")
+booleanOperation = 3
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"

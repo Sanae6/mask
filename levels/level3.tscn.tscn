@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://b8riwd6s420q4"]
+
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_1shly"]
+[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/dynamic/DynamicTerrainObj.cs" id="1_kaw7p"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_owenq"]
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_kaw7p"]
+[ext_resource type="Script" uid="uid://blhvq0l60ymf3" path="res://levels/node_2d.gd" id="4_owenq"]
+[ext_resource type="Script" uid="uid://d0yd2td1l0hc0" path="res://terrain/dynamic/CrawlingTerrain.cs" id="6_diil1"]
+[ext_resource type="Script" uid="uid://8514q4ghj480" path="res://levels/crawler_spawner.gd" id="7_diil1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cen1x"]
+size = Vector2(1176, 172)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjop6"]
+size = Vector2(71, 1027)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7c1e"]
+size = Vector2(40, 40)
+
+[node name="Level3_tscn" type="Node2D" unique_id=222427623]
+
+[node name="Ground" type="Node2D" parent="." unique_id=1292023690 node_paths=PackedStringArray("terrain")]
+script = ExtResource("1_kaw7p")
+terrain = NodePath("../Terrain")
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Ground" unique_id=1176489108]
+position = Vector2(568, 550)
+shape = SubResource("RectangleShape2D_cen1x")
+script = ExtResource("2_owenq")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="FollowPlayer" type="Node2D" parent="." unique_id=1267883551 node_paths=PackedStringArray("terrain")]
+script = ExtResource("1_kaw7p")
+terrain = NodePath("../Terrain")
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="FollowPlayer" unique_id=4721476]
+position = Vector2(1, -1)
+shape = SubResource("RectangleShape2D_jjop6")
+script = ExtResource("2_owenq")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="Player" parent="." unique_id=246047011 instance=ExtResource("3_kaw7p")]
+position = Vector2(630, 379)
+
+[node name="Node2D" type="Node2D" parent="Player" unique_id=1919850058]
+script = ExtResource("4_owenq")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1253883829]
+limit_left = -9999997
+limit_top = 0
+limit_right = 10000003
+limit_bottom = 648
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=404444615]
+script = ExtResource("1_1shly")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="CrawlingTerrain" type="Node2D" parent="." unique_id=770347265 node_paths=PackedStringArray("terrain")]
+position = Vector2(548, 323)
+script = ExtResource("6_diil1")
+terrain = NodePath("../Terrain")
+metadata/_custom_type_script = "uid://d0yd2td1l0hc0"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="CrawlingTerrain" unique_id=776621236]
+shape = SubResource("RectangleShape2D_s7c1e")
+script = ExtResource("2_owenq")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="CrawlerSpawner" type="Node2D" parent="." unique_id=705431077]
+position = Vector2(573, 106)
+script = ExtResource("7_diil1")

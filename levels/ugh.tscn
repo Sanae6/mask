@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dg4hnk0bpkm8t"]
+
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_cxydb"]
+
+[node name="Ugh" type="Node2D" unique_id=1240704908]
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=1321380761]
+script = ExtResource("1_cxydb")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
