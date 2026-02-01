@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dt2rpeax6f5mj"]
 
+[ext_resource type="Script" uid="uid://dgtpfpx04dme7" path="res://survival/Survival.cs" id="1_led80"]
 [ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_ps2jw"]
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_3al8i"]
 [ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_gx01k"]
@@ -28,6 +29,7 @@ size = Vector2(100, 10000)
 distance = -839.0
 
 [node name="Survival" type="Node2D" unique_id=89186192]
+script = ExtResource("1_led80")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=625082396]
 offset_left = -47.0
