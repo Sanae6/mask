@@ -9,7 +9,8 @@ size = Vector2(32, 58)
 [node name="Player" type="CharacterBody2D" unique_id=246047011]
 script = ExtResource("1_4flbx")
 coyoteDuration = 6
-jumpGravMultiplier = 200.0
+jumpBurst = -600.0
+speedCap = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257791181]
 shape = SubResource("RectangleShape2D_0xm2m")

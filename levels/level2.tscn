@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://blp5apa86v2r6"]
+
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="1_p1d34"]
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="2_qyb5k"]
+[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/DynamicTerrainObj.cs" id="3_py88r"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="4_g1dg4"]
+[ext_resource type="Script" uid="uid://bc2cyp3oxw538" path="res://linear.cs" id="4_s1bpp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_py88r"]
+size = Vector2(176, 64)
+
+[sub_resource type="Curve2D" id="Curve2D_g1dg4"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 576, 480, 0, 0, 0, 0, 576, 224)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1bpp"]
+size = Vector2(176, 128)
+
+[node name="Level2" type="Node2D" unique_id=1526224746]
+
+[node name="Player" parent="." unique_id=246047011 instance=ExtResource("1_p1d34")]
+position = Vector2(256, 320)
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=1524192337]
+script = ExtResource("2_qyb5k")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Terrain" unique_id=124714679]
+position = Vector2(576, 416)
+shape = SubResource("RectangleShape2D_py88r")
+script = ExtResource("4_g1dg4")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Terrain" unique_id=295375832]
+position = Vector2(864, 416)
+shape = SubResource("RectangleShape2D_py88r")
+script = ExtResource("4_g1dg4")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain" unique_id=669674665]
+position = Vector2(256, 416)
+shape = SubResource("RectangleShape2D_py88r")
+script = ExtResource("4_g1dg4")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="Path2D" type="Path2D" parent="Terrain" unique_id=966814737]
+curve = SubResource("Curve2D_g1dg4")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Terrain/Path2D" unique_id=656545397]
+position = Vector2(576, 480)
+rotation = -1.5707964
+script = ExtResource("4_s1bpp")
+speed = 200.0
+
+[node name="Node2D" type="Node2D" parent="Terrain/Path2D/PathFollow2D" unique_id=1484919553]
+script = ExtResource("3_py88r")
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Terrain/Path2D/PathFollow2D/Node2D" unique_id=890793101]
+position = Vector2(-32, 1)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_s1bpp")
+script = ExtResource("4_g1dg4")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
