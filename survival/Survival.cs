@@ -2,10 +2,18 @@ using Godot;
 using System;
 
 public partial class Survival : Node2D {
+    [Export] float BulletTimerEnd = 0.5f;
+    [Export] float GroundHoleTimerEnd = 2.0f;
+    [Export] float PlatformTimerEnd = 3.0f;
+    [Export] float DifficultyTweenTime = 60.0f;
+    
     private Player player;
     private Terrain terrain;
     private Control deathScreen;
     private Label timeLeftMessage;
+    private Timer bulletTimer;
+    private Timer groundHoleTimer;
+    private Timer platformTimer;
 [Export]    private Game.Timer timer;
 
     private bool Dying = false;
@@ -14,13 +22,20 @@ public partial class Survival : Node2D {
     private Terrain.WorldOp deathCircle;
     private Vector2 deathCircleCenter = new Vector2(0, 0);
     private float deathCircleRadius = 1;
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         terrain = GetNode<Terrain>("Terrain");
         player = GetNode<Player>("Player");
         deathScreen = GetNode<Control>("DeathScreen");
         timeLeftMessage = GetNode<Label>("DeathScreen/TileLeftText");
+        bulletTimer = GetNode<Timer>("BulletTimer");
+        groundHoleTimer = GetNode<Timer>("GroundHoleTimer");
+        platformTimer = GetNode<Timer>("PlatformTimer");
+        
+        var tween = GetTree().CreateTween();
+        tween.TweenProperty(bulletTimer, "wait_time", BulletTimerEnd, DifficultyTweenTime);
+        tween.TweenProperty(groundHoleTimer, "wait_time", GroundHoleTimerEnd, DifficultyTweenTime);
+        tween.TweenProperty(platformTimer, "wait_time", PlatformTimerEnd, DifficultyTweenTime);
         
         player.OnDeath += OnDeath;
         deathCircle = new Terrain.WorldOp(PolygonUtils.CreateNGon(1, 24), Geometry2D.PolyBooleanOperation.Difference);
@@ -61,11 +76,9 @@ public partial class Survival : Node2D {
         terrain.operations.Add(deathCircle);
         timeLeftMessage.Text = $"You survived for {timer.GetTime()}";
 
-        foreach (var child in GetChildren()) {
-            if (child is Timer timer) {
-                timer.Stop();
-            }
-        }
+        bulletTimer.Stop();
+        groundHoleTimer.Stop();
+        platformTimer.Stop();
     }
 
     private void UpdateDeathCircle() {
