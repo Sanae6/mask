@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="3_b3oru"]
 [ext_resource type="Script" uid="uid://bc2cyp3oxw538" path="res://linear.cs" id="4_61w3m"]
 [ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/DynamicTerrainShape.cs" id="4_ua5ty"]
+[ext_resource type="Script" uid="uid://ckcdgm88wd25q" path="res://levels/level1/Spotlight.cs" id="6_8hd6v"]
+[ext_resource type="Script" uid="uid://d1jmsavrqyoup" path="res://terrain/DynamicTerrainPolygon.cs" id="7_045es"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdtm5"]
 size = Vector2(1175, 91)
@@ -13,65 +15,103 @@ size = Vector2(1175, 91)
 size = Vector2(39, 532)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ua5ty"]
-size = Vector2(608, 506.75)
+size = Vector2(640, 506.75)
 
 [sub_resource type="Curve2D" id="Curve2D_b3oru"]
 _data = {
-"points": PackedVector2Array(-4.260109, -125.491356, 0, 0, 164.03264, 86.85716, 0, 0, 0, 0, 505.22052, 86.85716)
+"points": PackedVector2Array(-4.260109, -125.491356, 0, 0, 164.033, 88, 0, 0, 0, 0, 992, 88)
 }
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_61w3m"]
-size = Vector2(52.490448, 84.96109)
+size = Vector2(127.99988, 63.111084)
+
+[sub_resource type="Curve2D" id="Curve2D_61w3m"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 960, 256, 0, 0, 0, 0, 128, 256)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdpul"]
+size = Vector2(52.490417, 43.42859)
 
 [node name="Level1" type="Node2D" unique_id=1347166652]
 
 [node name="Player" parent="." unique_id=246047011 instance=ExtResource("2_pdtm5")]
-position = Vector2(63, 379)
+position = Vector2(240, 320)
 speedCap = 600.0
 moveMultiplier = 50
 
-[node name="Terrain" type="StaticBody2D" parent="." unique_id=895136628]
+[node name="Static" type="StaticBody2D" parent="." unique_id=895136628]
 script = ExtResource("1_sjb42")
 color = Color(1.0588765e-06, 0.6990862, 0.4690948, 1)
 metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain" unique_id=1066824620]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Static" unique_id=1066824620]
 position = Vector2(578, 548)
 shape = SubResource("RectangleShape2D_pdtm5")
 script = ExtResource("3_b3oru")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Terrain" unique_id=672496061]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Static" unique_id=672496061]
 position = Vector2(9.5, 256)
 shape = SubResource("RectangleShape2D_b3oru")
 script = ExtResource("3_b3oru")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Terrain" unique_id=345482893]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Static" unique_id=345482893]
 position = Vector2(1142, 251)
 shape = SubResource("RectangleShape2D_b3oru")
 script = ExtResource("3_b3oru")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
 
-[node name="TerrainShape2" type="CollisionShape2D" parent="Terrain" unique_id=457953618]
-position = Vector2(528, 250.625)
+[node name="Dynamic" type="StaticBody2D" parent="." unique_id=816524800]
+script = ExtResource("1_sjb42")
+color = Color(0.79398096, 0.47677177, 0.6096966, 1)
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="TerrainShape2" type="CollisionShape2D" parent="Dynamic" unique_id=457953618]
+position = Vector2(544, 250.625)
 shape = SubResource("RectangleShape2D_ua5ty")
 script = ExtResource("3_b3oru")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
 
-[node name="Path2D" type="Path2D" parent="Terrain" unique_id=1040684112]
-position = Vector2(-272, 224)
-scale = Vector2(2.438539, 1.473684)
+[node name="Path2D" type="Path2D" parent="Dynamic" unique_id=1040684112]
+position = Vector2(-32, 232)
 curve = SubResource("Curve2D_b3oru")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Terrain/Path2D" unique_id=141037155]
-position = Vector2(164.03264, 86.85716)
+[node name="PathFollow2D" type="PathFollow2D" parent="Dynamic/Path2D" unique_id=141037155]
+position = Vector2(164.033, 88)
 script = ExtResource("4_61w3m")
 
-[node name="DynamicTerrainShape" type="CollisionShape2D" parent="Terrain/Path2D/PathFollow2D" unique_id=1359085668]
-position = Vector2(-0.4100876, 0)
-scale = Vector2(1.0000001, 0.9999999)
+[node name="DynamicTerrainShape" type="CollisionShape2D" parent="Dynamic/Path2D/PathFollow2D" unique_id=1359085668]
+position = Vector2(-4.031067, 1.1484375)
 shape = SubResource("RectangleShape2D_61w3m")
 script = ExtResource("4_ua5ty")
 booleanOperation = 1
+
+[node name="Path2D2" type="Path2D" parent="Dynamic" unique_id=2075543875]
+position = Vector2(1, -32)
+curve = SubResource("Curve2D_61w3m")
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="Dynamic/Path2D2" unique_id=753535754]
+position = Vector2(960, 256)
+rotation = 3.1415927
+scale = Vector2(2.438539, 1.473684)
+script = ExtResource("4_61w3m")
+
+[node name="DynamicTerrainShape2" type="CollisionShape2D" parent="Dynamic/Path2D2/PathFollow2D2" unique_id=71916818]
+shape = SubResource("RectangleShape2D_pdpul")
+script = ExtResource("4_ua5ty")
+booleanOperation = 1
+
+[node name="Swinging" type="Node2D" parent="Dynamic" unique_id=1904131604]
+position = Vector2(544, -128)
+script = ExtResource("6_8hd6v")
+
+[node name="DynamicTerrainPolygon" type="Polygon2D" parent="Dynamic/Swinging" unique_id=865821262]
+visible = false
+polygon = PackedVector2Array(-64, 0, 64, 0, 256, 768, -256, 768)
+script = ExtResource("7_045es")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://d1jmsavrqyoup"

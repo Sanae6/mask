@@ -3,7 +3,7 @@ using Godot;
 namespace Mask;
 
 [GlobalClass]
-public partial class DynamicTerrainShape : TerrainShape {
+public partial class DynamicTerrainPolygon : TerrainPolygon {
     private Terrain terrain;
     private Terrain.WorldOp worldOp;
     public override void _Ready() {
@@ -22,7 +22,6 @@ public partial class DynamicTerrainShape : TerrainShape {
     }
 
     public override void _Process(double delta) {
-        return;
         GetPolygon().CopyTo(worldOp.points, 0);
         worldOp.boolOperation = booleanOperation;
         
