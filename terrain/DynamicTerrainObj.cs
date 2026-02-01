@@ -47,12 +47,12 @@ public partial class DynamicTerrainObj : Node2D {
     }
 
     public override void _Draw() {
-        var points = worldOp.points;
-        for (var i = 0; i < points.Length; i++) {
-            var (start, end) = (points[i + 0], points[(i + 1) % points.Length]);
-            DrawLine(start, end, Colors.White);
-            DrawDashedLine(start, end, Colors.Black, 4, 8);
-        }
+        //var points = worldOp.points;
+        //for (var i = 0; i < points.Length; i++) {
+        //    var (start, end) = (points[i + 0], points[(i + 1) % points.Length]);
+        //    DrawLine(start, end, Colors.White);
+        //    DrawDashedLine(start, end, Colors.Black, 4, 8);
+        //}
 
         base._Draw();
     }
