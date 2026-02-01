@@ -3,11 +3,12 @@ using System;
 
 public partial class Survival : Node2D {
     private Player player;
+    private Terrain terrain;
+    private Control deathScreen;
 
     private bool Dying = false;
     private const double DEATH_TIME = 2;
     private double TimeLeft = DEATH_TIME;
-    private Terrain terrain;
     private Terrain.WorldOp deathCircle;
     private Vector2 deathCircleCenter = new Vector2(0, 0);
     private float deathCircleRadius = 1;
@@ -16,8 +17,9 @@ public partial class Survival : Node2D {
     {
         terrain = GetNode<Terrain>("Terrain");
         player = GetNode<Player>("Player");
+        deathScreen = GetNode<Control>("DeathScreen");
+        
         player.OnDeath += OnDeath;
-
         deathCircle = new Terrain.WorldOp(PolygonUtils.CreateNGon(1, 24), Geometry2D.PolyBooleanOperation.Difference);
     }
 
@@ -28,10 +30,17 @@ public partial class Survival : Node2D {
         UpdateDeathCircle();
             
         if (TimeLeft <= 0) {
-            GetTree().ReloadCurrentScene();
+            deathScreen.Show();
         }
 
         TimeLeft -= delta;
+    }
+
+    public override void _Input(InputEvent @event) {
+        base._Input(@event);
+        if (TimeLeft > 0 || @event is not InputEventKey) return;
+        var tree = GetTree();
+        tree.CreateTimer(0.1).Timeout += () => tree.ReloadCurrentScene();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,6 +49,12 @@ public partial class Survival : Node2D {
         deathCircleCenter = new Vector2(player.Position.X, GetViewportRect().Size.Y);
         UpdateDeathCircle();
         terrain.operations.Add(deathCircle);
+
+        foreach (var child in GetChildren()) {
+            if (child is Timer timer) {
+                timer.Stop();
+            }
+        }
     }
 
     private void UpdateDeathCircle() {

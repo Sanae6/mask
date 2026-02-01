@@ -94,3 +94,39 @@ player = NodePath("../Player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathPlane" unique_id=1954486866]
 shape = SubResource("WorldBoundaryShape2D_mm5ju")
+
+[node name="DeathScreen" type="Control" parent="." unique_id=289308517]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DeathTitle" type="Label" parent="DeathScreen" unique_id=790847008]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 530.0
+theme_override_font_sizes/font_size = 120
+text = "YOU DIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TileLeftText" type="Label" parent="DeathScreen" unique_id=54135896]
+layout_mode = 0
+offset_top = 333.0
+offset_right = 1152.0
+offset_bottom = 430.0
+theme_override_font_sizes/font_size = 40
+text = "You survived: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartText" type="Label" parent="DeathScreen" unique_id=1026141412]
+layout_mode = 0
+offset_top = 376.0
+offset_right = 1152.0
+offset_bottom = 473.0
+theme_override_font_sizes/font_size = 40
+text = "Press anything to retry"
+horizontal_alignment = 1
+vertical_alignment = 1
