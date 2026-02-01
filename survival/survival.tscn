@@ -87,7 +87,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="PlatformTimer" type="Timer" parent="." unique_id=1527396234]
-wait_time = 5.0
+wait_time = 3.5
 autostart = true
 
 [node name="DeathPlane" type="Area2D" parent="." unique_id=1741192457 node_paths=PackedStringArray("player")]
@@ -134,10 +134,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Timer" type="Label" parent="." unique_id=2085224218 node_paths=PackedStringArray("player")]
-offset_left = 544.0
 offset_top = 38.0
-offset_right = 608.0
-offset_bottom = 62.0
+offset_right = 1152.0
+offset_bottom = 93.0
+theme_override_font_sizes/font_size = 40
 text = "3:30"
 horizontal_alignment = 1
 vertical_alignment = 1
