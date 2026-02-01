@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_3al8i"]
 [ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_gx01k"]
 [ext_resource type="Script" uid="uid://5b0sfh6gh331" path="res://survival/HoleSpawner.cs" id="4_3al8i"]
+[ext_resource type="Script" uid="uid://bkxnt0mjn8tpd" path="res://survival/DeathPlane.cs" id="5_gx01k"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_se8cw"]
 normal = Vector2(1, 0)
@@ -20,7 +21,10 @@ size = Vector2(1152, 122)
 radius = 75.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3al8i"]
-size = Vector2(100, 10000)
+size = Vector2(100, 1000)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mm5ju"]
+distance = -839.0
 
 [node name="Survival" type="Node2D" unique_id=89186192]
 
@@ -60,3 +64,10 @@ autostart = true
 [node name="GroundHoleTimer" type="Timer" parent="." unique_id=2140824590]
 wait_time = 2.0
 autostart = true
+
+[node name="DeathPlane" type="Area2D" parent="." unique_id=1741192457 node_paths=PackedStringArray("player")]
+script = ExtResource("5_gx01k")
+player = NodePath("../Player")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathPlane" unique_id=1954486866]
+shape = SubResource("WorldBoundaryShape2D_mm5ju")

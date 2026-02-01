@@ -7,6 +7,10 @@ public partial class Player : CharacterBody2D {
     public override void _Ready() {
     }
 
+    public void Killed() {
+        GetTree().ReloadCurrentScene();
+    }
+
     private int coyote;
     private float jumpGrav;
 
