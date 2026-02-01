@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="2_pdtm5"]
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="3_b3oru"]
 [ext_resource type="Script" uid="uid://bc2cyp3oxw538" path="res://linear.cs" id="4_61w3m"]
-[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/DynamicTerrainShape.cs" id="4_ua5ty"]
+[ext_resource type="Script" uid="uid://jrcw1tnc5tk2" path="res://terrain/DynamicTerrainObj.cs" id="4_ua5ty"]
 [ext_resource type="Script" uid="uid://ckcdgm88wd25q" path="res://levels/level1/Spotlight.cs" id="6_8hd6v"]
-[ext_resource type="Script" uid="uid://d1jmsavrqyoup" path="res://terrain/DynamicTerrainPolygon.cs" id="7_045es"]
+[ext_resource type="Script" uid="uid://fqgv3jqfcrqr" path="res://terrain/TerrainPolygon.cs" id="7_8hd6v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdtm5"]
 size = Vector2(1175, 91)
@@ -84,11 +84,15 @@ curve = SubResource("Curve2D_b3oru")
 position = Vector2(164.033, 88)
 script = ExtResource("4_61w3m")
 
-[node name="DynamicTerrainShape" type="CollisionShape2D" parent="Dynamic/Path2D/PathFollow2D" unique_id=1359085668]
-position = Vector2(-4.031067, 1.1484375)
-shape = SubResource("RectangleShape2D_61w3m")
+[node name="DynamicTerrainObj" type="Node2D" parent="Dynamic/Path2D/PathFollow2D" unique_id=2018432829]
 script = ExtResource("4_ua5ty")
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Dynamic/Path2D/PathFollow2D/DynamicTerrainObj" unique_id=1532232024]
+shape = SubResource("RectangleShape2D_61w3m")
+script = ExtResource("3_b3oru")
 booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
 
 [node name="Path2D2" type="Path2D" parent="Dynamic" unique_id=2075543875]
 position = Vector2(1, -32)
@@ -100,18 +104,27 @@ rotation = 3.1415927
 scale = Vector2(2.438539, 1.473684)
 script = ExtResource("4_61w3m")
 
-[node name="DynamicTerrainShape2" type="CollisionShape2D" parent="Dynamic/Path2D2/PathFollow2D2" unique_id=71916818]
-shape = SubResource("RectangleShape2D_pdpul")
+[node name="DynamicTerrainObj" type="Node2D" parent="Dynamic/Path2D2/PathFollow2D2" unique_id=1471240612]
 script = ExtResource("4_ua5ty")
-booleanOperation = 1
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
 
-[node name="Swinging" type="Node2D" parent="Dynamic" unique_id=1904131604]
+[node name="TerrainShape" type="CollisionShape2D" parent="Dynamic/Path2D2/PathFollow2D2/DynamicTerrainObj" unique_id=1156600974]
+shape = SubResource("RectangleShape2D_pdpul")
+script = ExtResource("3_b3oru")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="Swinging" type="Node2D" parent="Dynamic" unique_id=684421688]
 position = Vector2(544, -128)
 script = ExtResource("6_8hd6v")
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
 
-[node name="DynamicTerrainPolygon" type="Polygon2D" parent="Dynamic/Swinging" unique_id=865821262]
-visible = false
+[node name="DynamicTerrainObj" type="Node2D" parent="Dynamic/Swinging" unique_id=227390431]
+script = ExtResource("4_ua5ty")
+metadata/_custom_type_script = "uid://jrcw1tnc5tk2"
+
+[node name="TerrainPolygon" type="Polygon2D" parent="Dynamic/Swinging/DynamicTerrainObj" unique_id=236483361]
 polygon = PackedVector2Array(-64, 0, 64, 0, 256, 768, -256, 768)
-script = ExtResource("7_045es")
+script = ExtResource("7_8hd6v")
 booleanOperation = 1
-metadata/_custom_type_script = "uid://d1jmsavrqyoup"
+metadata/_custom_type_script = "uid://fqgv3jqfcrqr"

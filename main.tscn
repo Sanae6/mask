@@ -15,12 +15,12 @@ metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
 
 [node name="TerrainPolygon" type="Polygon2D" parent="Terrain" unique_id=2142803258]
 position = Vector2(-251, -280)
-polygon = PackedVector2Array(750, 750, 750, 450, 900, 450, 900, 600, 900, 450, 1000, 450, 1000, 750)
+polygon = PackedVector2Array(750, 750, 750, 450, 900, 450, 900, 600, 850, 650, 950, 650, 900, 600, 900, 450, 1000, 450, 1000, 750)
 script = ExtResource("4_1bvp3")
 metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
 
 [node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=755613257]
-position = Vector2(633, 269)
+position = Vector2(651, 254)
 shape = SubResource("RectangleShape2D_h2yge")
 script = ExtResource("5_lquwl")
 booleanOperation = 1

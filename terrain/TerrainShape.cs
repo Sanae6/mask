@@ -10,12 +10,12 @@ public partial class TerrainShape : CollisionShape2D, TerrainObj {
         switch (Shape) {
             case RectangleShape2D rectShape: {
                 Vector2[] points = PolygonUtils.CreateCenteredRect(rectShape.Size);
-                return points.Select(p => GlobalTransform * p).ToArray();
+                return points.Select(p => Transform * p).ToArray();
             }
 
             case CircleShape2D circleShape: {
                 Vector2[] points = PolygonUtils.CreateNGon(circleShape.Radius, 24);
-                return points.Select(p => GlobalTransform * p).ToArray();
+                return points.Select(p => Transform * p).ToArray();
             }
 
             default:
