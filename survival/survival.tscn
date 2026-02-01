@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dt2rpeax6f5mj"]
+
+[ext_resource type="Script" uid="uid://bqwt5jwnkalo8" path="res://terrain/Terrain.cs" id="1_ps2jw"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_3al8i"]
+[ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_gx01k"]
+[ext_resource type="Script" uid="uid://5b0sfh6gh331" path="res://survival/HoleSpawner.cs" id="4_3al8i"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_se8cw"]
+normal = Vector2(1, 0)
+distance = 22.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_led80"]
+normal = Vector2(-1, 0)
+distance = -1161.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mm5ju"]
+size = Vector2(1152, 122)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3al8i"]
+radius = 50.0
+
+[node name="Survival" type="Node2D" unique_id=89186192]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=338148108]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1658199684]
+position = Vector2(-22, 0)
+shape = SubResource("WorldBoundaryShape2D_se8cw")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1816176086]
+position = Vector2(-9, 0)
+shape = SubResource("WorldBoundaryShape2D_led80")
+
+[node name="Terrain" type="StaticBody2D" parent="." unique_id=1096743771]
+script = ExtResource("1_ps2jw")
+metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
+
+[node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=2100762125]
+position = Vector2(576, 587)
+shape = SubResource("RectangleShape2D_mm5ju")
+script = ExtResource("2_3al8i")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="Player" parent="." unique_id=246047011 instance=ExtResource("3_gx01k")]
+position = Vector2(576, 497)
+
+[node name="HoleSpawner" type="Node2D" parent="." unique_id=1315077494 node_paths=PackedStringArray("terrain")]
+script = ExtResource("4_3al8i")
+terrain = NodePath("../Terrain")
+bulletShape = SubResource("CircleShape2D_3al8i")

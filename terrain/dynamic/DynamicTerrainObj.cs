@@ -5,7 +5,7 @@ using Godot;
 
 [GlobalClass]
 public partial class DynamicTerrainObj : Node2D {
-    [Export] private Terrain terrain;
+    [Export] public Terrain terrain;
     private List<(Vector2[], Terrain.WorldOp)> operations = [];
 
     public override void _Ready() {
@@ -44,5 +44,11 @@ public partial class DynamicTerrainObj : Node2D {
         }
 
         terrain.QueueRecalculation();
+    }
+    
+    public override void _ExitTree() {
+        foreach (var (_, operation) in operations) {
+            terrain.operations.Remove(operation);
+        }
     }
 }
