@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Godot.Collections;
 using Godot.NativeInterop;
 using Array = System.Array;
@@ -49,7 +50,7 @@ public partial class Terrain : StaticBody2D {
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Draw() {
         foreach (Vector2[] polygon in polygons) {
-            DrawColoredPolygon(polygon, color);
+            DrawColoredPolygon(polygon, new Color(GD.Randf(), GD.Randf(), GD.Randf()));
         }
     }
 
@@ -66,7 +67,7 @@ public partial class Terrain : StaticBody2D {
             op.points[i] += eventMouseButton.Position;
         }
 
-        operations.Insert(staticOperationCount++, op);
+        operations.Add(op);
         RecalculatePolygons();
     }
 
@@ -76,21 +77,18 @@ public partial class Terrain : StaticBody2D {
         foreach (var operation in operations) {
             switch (operation.boolOperation) {
                 case Geometry2D.PolyBooleanOperation.Union:
-                    var added = false;
-                    for (var i = 0; i < newPolygons.Count && !added; i++) {
-                        var mergedPolygons = Geometry2D.MergePolygons(newPolygons[i], operation.points);
+                    var currentPoly = operation.points;
+                    for (var i = newPolygons.Count - 1; i >= 0; i--) {
+                        var mergedPolygons = Geometry2D.MergePolygons(newPolygons[i], currentPoly);
                         var outerPolygonCount = mergedPolygons.Aggregate(0,
                             (acc, poly) => acc + (Geometry2D.IsPolygonClockwise(poly) ? 0 : 1));
                         if (outerPolygonCount != 1) continue;
 
-                        mergedPolygons = MergeInnerPolygons(mergedPolygons);
-                        newPolygons[i] = mergedPolygons[0];
-                        added = true;
+                        currentPoly = MergeInnerPolygons(mergedPolygons)[0];
+                        newPolygons.RemoveAt(i);
                     }
 
-                    if (!added) {
-                        newPolygons.Add(operation.points);
-                    }
+                    newPolygons.Add(currentPoly);
 
                     break;
 
@@ -115,6 +113,7 @@ public partial class Terrain : StaticBody2D {
 
         polygons.Clear();
         foreach (var polygon in newPolygons) {
+            if (polygon.IsEmpty()) continue;
             polygons.AddRange(Geometry2D.DecomposePolygonInConvex(polygon));
         }
 
@@ -143,7 +142,7 @@ public partial class Terrain : StaticBody2D {
         if (!hasHole) return polygons;
         if (outerCount == 1) {
             var outer = polygons[outerIdx];
-            
+
             var innerPolygonWithHeight = polygons
                 .Where((t, j) => j != outerIdx)
                 .Select(x => {
@@ -151,9 +150,9 @@ public partial class Terrain : StaticBody2D {
                     return (x, maxY);
                 })
                 .ToList();
-        
+
             innerPolygonWithHeight.Sort((x, y) => x.maxY > y.maxY ? -1 : 1);
-        
+
             outer = innerPolygonWithHeight
                 .Select(x => x.x)
                 .Aggregate(outer, HolepunchPolygon);
@@ -229,17 +228,6 @@ public partial class Terrain : StaticBody2D {
         destIndex++;
         Array.Copy(outer, outerIntersectionIndex + 1, newPoly, destIndex, outer.Length - outerIntersectionIndex - 1);
         return newPoly;
-    }
-    
-    private String Vec2ToDesmos(Vector2[] points) {
-        String str = "polygon(";
-        foreach (var point in points) {
-            str += $"({point.X}, {point.Y}),";
-        }
-
-        str = str.Remove(str.Length - 1, 1);
-        str += ")";
-        return str;
     }
 
     public class WorldOp(Vector2[] points, Geometry2D.PolyBooleanOperation boolOperation) {

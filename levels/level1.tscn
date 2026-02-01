@@ -42,6 +42,9 @@ position = Vector2(240, 320)
 speedCap = 600.0
 moveMultiplier = 50
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player" unique_id=324633703]
+remote_path = NodePath("../../Camera2D")
+
 [node name="Static" type="StaticBody2D" parent="." unique_id=895136628]
 script = ExtResource("1_sjb42")
 color = Color(1.0588765e-06, 0.6990862, 0.4690948, 1)
@@ -128,3 +131,10 @@ polygon = PackedVector2Array(-64, 0, 64, 0, 256, 768, -256, 768)
 script = ExtResource("7_8hd6v")
 booleanOperation = 1
 metadata/_custom_type_script = "uid://fqgv3jqfcrqr"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1045395485]
+position = Vector2(240, 320)
+limit_left = 0
+limit_top = -4
+limit_right = 1572
+limit_bottom = 646
