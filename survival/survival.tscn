@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_3al8i"]
 [ext_resource type="PackedScene" uid="uid://bxs7aak1prc1q" path="res://player/player.tscn" id="3_gx01k"]
 [ext_resource type="Script" uid="uid://5b0sfh6gh331" path="res://survival/HoleSpawner.cs" id="4_3al8i"]
-[ext_resource type="Script" uid="uid://bkxnt0mjn8tpd" path="res://survival/DeathPlane.cs" id="5_gx01k"]
+[ext_resource type="PackedScene" uid="uid://bntj3xkr7a3x3" path="res://survival/obstacles/upwards_platform.tscn" id="5_gx01k"]
+[ext_resource type="Script" uid="uid://bkxnt0mjn8tpd" path="res://survival/DeathPlane.cs" id="6_se8cw"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_se8cw"]
 normal = Vector2(1, 0)
@@ -21,12 +22,19 @@ size = Vector2(1152, 122)
 radius = 75.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3al8i"]
-size = Vector2(100, 1000)
+size = Vector2(100, 10000)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mm5ju"]
 distance = -839.0
 
 [node name="Survival" type="Node2D" unique_id=89186192]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=625082396]
+offset_left = -47.0
+offset_top = -50.0
+offset_right = 1211.0
+offset_bottom = 708.0
+color = Color(0.75686276, 0.46666667, 0.40392157, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=338148108]
 
@@ -40,10 +48,18 @@ shape = SubResource("WorldBoundaryShape2D_led80")
 
 [node name="Terrain" type="StaticBody2D" parent="." unique_id=1096743771]
 script = ExtResource("1_ps2jw")
+baseColor = Color(0.42745098, 0.59607846, 0.7294118, 1)
+outlineColor = Color(0.17829636, 0.45026255, 0.64214474, 1)
 metadata/_custom_type_script = "uid://bqwt5jwnkalo8"
 
 [node name="TerrainShape" type="CollisionShape2D" parent="Terrain" unique_id=2100762125]
 position = Vector2(576, 587)
+shape = SubResource("RectangleShape2D_mm5ju")
+script = ExtResource("2_3al8i")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="TerrainShape2" type="CollisionShape2D" parent="Terrain" unique_id=1998019118]
+position = Vector2(576, 283)
 shape = SubResource("RectangleShape2D_mm5ju")
 script = ExtResource("2_3al8i")
 metadata/_custom_type_script = "uid://u373uvylr5ap"
@@ -56,6 +72,7 @@ script = ExtResource("4_3al8i")
 terrain = NodePath("../Terrain")
 bulletShape = SubResource("CircleShape2D_3al8i")
 groundHoleShape = SubResource("RectangleShape2D_3al8i")
+platformScene = ExtResource("5_gx01k")
 
 [node name="BulletTimer" type="Timer" parent="." unique_id=172849480]
 wait_time = 0.5
@@ -65,8 +82,12 @@ autostart = true
 wait_time = 2.0
 autostart = true
 
+[node name="PlatformTimer" type="Timer" parent="." unique_id=1527396234]
+wait_time = 5.0
+autostart = true
+
 [node name="DeathPlane" type="Area2D" parent="." unique_id=1741192457 node_paths=PackedStringArray("player")]
-script = ExtResource("5_gx01k")
+script = ExtResource("6_se8cw")
 player = NodePath("../Player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathPlane" unique_id=1954486866]

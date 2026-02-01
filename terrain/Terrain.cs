@@ -14,7 +14,9 @@ public partial class Terrain : StaticBody2D {
 
     private bool recalculateQueued;
 
-    [Export] public Color color = Colors.CornflowerBlue;
+    [Export] public Color baseColor = Colors.CornflowerBlue;
+    [Export] public Color outlineColor = Colors.CornflowerBlue;
+    [Export] public float outlineWidth = 4;
 
     private uint shapeOwnerId;
     private List<Vector2[]> polygons = [];
@@ -50,7 +52,16 @@ public partial class Terrain : StaticBody2D {
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Draw() {
         foreach (Vector2[] polygon in polygons) {
-            DrawColoredPolygon(polygon, color);
+            DrawColoredPolygon(polygon, baseColor);
+
+            var outlinePolygons = Geometry2D.OffsetPolygon(polygon, -outlineWidth / 2);
+            foreach (var outlinePoly in outlinePolygons)
+            {
+                Vector2[] polyline = new Vector2[outlinePoly.Length + 1];
+                outlinePoly.CopyTo(polyline, 0);
+                polyline[outlinePoly.Length] = polyline[0];
+                DrawPolyline(polyline, outlineColor, outlineWidth);
+            }
         }
     }
 
@@ -112,14 +123,17 @@ public partial class Terrain : StaticBody2D {
         }
 
         polygons.Clear();
+        polygons.AddRange(newPolygons);
+        
+        List<Vector2[]> convexPolygons = [];
         foreach (var polygon in newPolygons) {
             if (polygon.IsEmpty()) continue;
-            polygons.AddRange(Geometry2D.DecomposePolygonInConvex(polygon));
+            convexPolygons.AddRange(Geometry2D.DecomposePolygonInConvex(polygon));
         }
 
         QueueRedraw();
         ShapeOwnerClearShapes(shapeOwnerId);
-        foreach (var polygon in polygons) {
+        foreach (var polygon in convexPolygons) {
             ConvexPolygonShape2D shape = new ConvexPolygonShape2D();
             shape.Points = polygon;
             ShapeOwnerAddShape(shapeOwnerId, shape);

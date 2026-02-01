@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bntj3xkr7a3x3"]
+
+[ext_resource type="Script" uid="uid://d0yd2td1l0hc0" path="res://terrain/dynamic/CrawlingTerrain.cs" id="1_5tt6s"]
+[ext_resource type="Script" uid="uid://u373uvylr5ap" path="res://terrain/TerrainShape.cs" id="2_t5ski"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t5ski"]
+radius = 75.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3p6og"]
+size = Vector2(150, 110)
+
+[node name="UpwardsPlatform" type="Node2D" unique_id=1520657817]
+position = Vector2(0, -10)
+script = ExtResource("1_5tt6s")
+Speed = 100.0
+Direction = -1.571
+LifeTime = 20.0
+metadata/_custom_type_script = "uid://d0yd2td1l0hc0"
+
+[node name="Bottom" type="CollisionShape2D" parent="." unique_id=1145306150]
+position = Vector2(0, 75)
+shape = SubResource("CircleShape2D_t5ski")
+script = ExtResource("2_t5ski")
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="SquareDiff" type="CollisionShape2D" parent="." unique_id=608545059]
+position = Vector2(0, 20)
+shape = SubResource("RectangleShape2D_3p6og")
+script = ExtResource("2_t5ski")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
+
+[node name="CircleDiff" type="CollisionShape2D" parent="." unique_id=22310781]
+position = Vector2(0, -35)
+shape = SubResource("CircleShape2D_t5ski")
+script = ExtResource("2_t5ski")
+booleanOperation = 1
+metadata/_custom_type_script = "uid://u373uvylr5ap"
