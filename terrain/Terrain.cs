@@ -143,9 +143,19 @@ public partial class Terrain : StaticBody2D {
         if (!hasHole) return polygons;
         if (outerCount == 1) {
             var outer = polygons[outerIdx];
-
-            outer = polygons
+            
+            var innerPolygonWithHeight = polygons
                 .Where((t, j) => j != outerIdx)
+                .Select(x => {
+                    var maxY = x.Aggregate(float.MinValue, (acc, y) => float.Max(acc, y.Y));
+                    return (x, maxY);
+                })
+                .ToList();
+        
+            innerPolygonWithHeight.Sort((x, y) => x.maxY > y.maxY ? -1 : 1);
+        
+            outer = innerPolygonWithHeight
+                .Select(x => x.x)
                 .Aggregate(outer, HolepunchPolygon);
 
             return [outer];
@@ -186,8 +196,9 @@ public partial class Terrain : StaticBody2D {
         }
 
         // The point of the intersection after moving upwards from the above point
-        var point1 =
-            Geometry2D.IntersectPolylineWithPolygon((Vector2[])[point0, new Vector2(point0.X, 1e9f)], outer)[0][1];
+        var lineSegments =
+            Geometry2D.IntersectPolylineWithPolygon((Vector2[])[point0, new Vector2(point0.X, 1e9f)], outer);
+        var point1 = lineSegments[^1][1];
 
         // Find where in the outer polygon to add the new line segment
         // Check every line segment to see which one point1 lies on
@@ -219,8 +230,8 @@ public partial class Terrain : StaticBody2D {
         Array.Copy(outer, outerIntersectionIndex + 1, newPoly, destIndex, outer.Length - outerIntersectionIndex - 1);
         return newPoly;
     }
-
-    private void PrintVec2ArrForDesmos(Vector2[] points) {
+    
+    private String Vec2ToDesmos(Vector2[] points) {
         String str = "polygon(";
         foreach (var point in points) {
             str += $"({point.X}, {point.Y}),";
@@ -228,7 +239,7 @@ public partial class Terrain : StaticBody2D {
 
         str = str.Remove(str.Length - 1, 1);
         str += ")";
-        GD.Print(str);
+        return str;
     }
 
     public class WorldOp(Vector2[] points, Geometry2D.PolyBooleanOperation boolOperation) {
