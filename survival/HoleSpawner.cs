@@ -25,21 +25,24 @@ public partial class HoleSpawner : Node2D {
 
     private void SpawnBulletHole() {
         CreateCrawler(new Vector2((float)GD.RandRange(0, GetViewportRect().Size.X), 0),
-            Mathf.Pi / 2 + (float)GD.RandRange(-0.75, 0.75), 150, bulletShape, 10.0f);
+            0, Mathf.Pi / 2 + (float)GD.RandRange(-0.75, 0.75), 150, bulletShape, 10.0f);
     }
 
     private void SpawnGroundHole() {
         var isMovingLeft = GD.Randi() % 2 == 0;
-        var pos = new Vector2(isMovingLeft ? GetViewportRect().Size.X : 0, GetViewportRect().Size.Y);
-        var rotation = isMovingLeft ? Mathf.Pi : 0;
-        CreateCrawler(pos, rotation, 150, groundHoleShape, 10.0f);
+        const int X_OFFSET = 150;
+        var pos = new Vector2(isMovingLeft ? GetViewportRect().Size.X+X_OFFSET : -X_OFFSET, GetViewportRect().Size.Y);
+        var direction = (isMovingLeft ? Mathf.Pi : 0);
+        var rotation = (float)GD.RandRange(-Mathf.Pi / 4, Mathf.Pi / 4);
+        CreateCrawler(pos, rotation, direction, 150, groundHoleShape, 10.0f);
     }
 
-    private CrawlingTerrain CreateCrawler(Vector2 position, float rotation, float speed, Shape2D shape, float lifeTime) {
+    private CrawlingTerrain CreateCrawler(Vector2 position, float rotation, float direction, float speed, Shape2D shape, float lifeTime) {
         var crawler = new CrawlingTerrain();
         crawler.terrain = terrain;
         crawler.Position = position;
         crawler.Rotation = rotation;
+        crawler.Direction = direction;
         crawler.Speed = speed;
         crawler.LifeTime = lifeTime;
 
