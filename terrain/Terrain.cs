@@ -54,22 +54,22 @@ public partial class Terrain : StaticBody2D {
         }
     }
 
-    public override void _Input(InputEvent @event) {
-        if (@event is not InputEventMouseButton { Pressed: true } eventMouseButton) return;
-
-        var op = new WorldOp([new Vector2(25, 25), new Vector2(25, -25), new Vector2(-25, -25), new Vector2(-25, 25)],
-            eventMouseButton.ButtonIndex switch {
-                MouseButton.Left => Geometry2D.PolyBooleanOperation.Union,
-                MouseButton.Right => Geometry2D.PolyBooleanOperation.Difference,
-                _ => Geometry2D.PolyBooleanOperation.Xor
-            });
-        for (var i = 0; i < op.points.Length; i++) {
-            op.points[i] += eventMouseButton.Position;
-        }
-
-        operations.Add(op);
-        RecalculatePolygons();
-    }
+    // public override void _Input(InputEvent @event) {
+    //     if (@event is not InputEventMouseButton { Pressed: true } eventMouseButton) return;
+    //
+    //     var op = new WorldOp([new Vector2(25, 25), new Vector2(25, -25), new Vector2(-25, -25), new Vector2(-25, 25)],
+    //         eventMouseButton.ButtonIndex switch {
+    //             MouseButton.Left => Geometry2D.PolyBooleanOperation.Union,
+    //             MouseButton.Right => Geometry2D.PolyBooleanOperation.Difference,
+    //             _ => Geometry2D.PolyBooleanOperation.Xor
+    //         });
+    //     for (var i = 0; i < op.points.Length; i++) {
+    //         op.points[i] += eventMouseButton.Position;
+    //     }
+    //
+    //     operations.Add(op);
+    //     RecalculatePolygons();
+    // }
 
     private void RecalculatePolygons() {
         List<Vector2[]> newPolygons = [[]];
